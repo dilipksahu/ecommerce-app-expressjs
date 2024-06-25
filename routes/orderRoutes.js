@@ -15,4 +15,7 @@ router.get('/:orderId', orderController.getOrderById);
 // PUT /api/orders/:orderId (Update a order by ID)
 router.put('/:orderId', authMiddleware.authenticateToken, orderController.updateOrderById);
 
+// DELETE /api/orders/:orderId (Delete a order by ID)
+router.delete('/:orderId', authMiddleware.authenticateToken, orderController.deleteOrderById);
+
 module.exports = router;

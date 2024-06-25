@@ -38,7 +38,7 @@ class OrderController {
         }
     };
 
-    // Update a product by ID
+    // Update a order by ID
     updateOrderById = async (req, res) => {
         try {
             const updatedOrder = await orderService.updateOrderById(req.params.orderId, req.body);
@@ -46,6 +46,19 @@ class OrderController {
                 return res.status(404).json({ message: 'Order not found' });
             }
             res.json(updatedOrder);
+        } catch (err) {
+            res.status(400).json({ message: err.message });
+        }
+    };
+
+    // Delete a product by ID
+    deleteOrderById = async (req, res) => {
+        try {
+            const deletedOrder = await orderService.deleteOrderById(req.params.orderId);
+            if (!deletedOrder) {
+                return res.status(404).json({ message: 'Order not found' });
+            }
+            res.json({ message: 'Order deleted successfully' });
         } catch (err) {
             res.status(400).json({ message: err.message });
         }

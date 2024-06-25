@@ -92,6 +92,20 @@ class OrderService {
         }
     }
 
+    // Delete order by ID
+    async deleteOrderById(orderId) {
+        try {
+            const order = await Order.findById(orderId);
+            if (!order) {
+                throw new Error('Order not found');
+            }
+            await order.remove();
+            return order;
+        } catch (error) {
+            throw new Error(`Error deleting order: ${error.message}`);
+        }
+    }
+
 }
 
 module.exports = new OrderService();
