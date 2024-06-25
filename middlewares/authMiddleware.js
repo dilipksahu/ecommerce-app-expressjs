@@ -4,7 +4,6 @@ const User = require('../models/User');
 class AuthMiddleware {
     async authenticateToken(req, res, next) {
         const authHeader = req.headers['authorization'];
-        console.log(authHeader);
         const token = authHeader && authHeader.split(' ')[1];
         if (!token) return res.status(401).json({ message: 'Access denied, token missing' });
 

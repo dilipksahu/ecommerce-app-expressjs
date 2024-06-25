@@ -4,20 +4,25 @@ const User = require('../models/User');
 
 class UserService {
     async register(userData) {
-        const { name, email, password } = userData;
+        try {
+            const { name, email, password } = userData;
 
-        // Hash the password
-        const saltRounds = 10;
-        const passwordHash = await bcrypt.hash(password, saltRounds);
+            // Hash the password
+            const saltRounds = 10;
+            const passwordHash = await bcrypt.hash(password, saltRounds);
 
-        const newUser = new User({
-            name,
-            email,
-            password: passwordHash,
-        });
+            const newUser = new User({
+                name,
+                email,
+                password: passwordHash,
+            });
 
-        await newUser.save();
-        return newUser;
+            await newUser.save();
+            return newUser;
+        } catch (err) {
+            console.log(err);
+            return err;
+        }
     }
 
     async authenticateUser(userData) {
@@ -40,7 +45,7 @@ class UserService {
          return token;
        } catch (err) {
          console.log(err);
-         return null;
+         return err;
        }
     }
 
