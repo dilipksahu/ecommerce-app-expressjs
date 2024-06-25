@@ -34,7 +34,14 @@ class OrderService {
         }
     }
 
-   
+    async getAllOrders() {
+        try {
+            const orders = await Order.find().populate('userId').populate('products.productId');
+            return orders;
+        } catch (error) {
+            throw new Error(`Error fetching orders: ${error.message}`);
+        }
+    }
 
 }
 
