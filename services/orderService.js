@@ -43,6 +43,20 @@ class OrderService {
         }
     }
 
+    
+    // Get order by ID
+    async getOrderById(orderId) {
+        try {
+            const order = await Order.findById(orderId).populate('userId').populate('products.productId');
+            if (!order) {
+                throw new Error('Order not found');
+            }
+            return order;
+        } catch (error) {
+            throw new Error(`Error fetching order: ${error.message}`);
+        }
+    }
+
 }
 
 module.exports = new OrderService();

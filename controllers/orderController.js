@@ -24,6 +24,19 @@ class OrderController {
             res.status(500).json({ message: err.message });
         }
     };
+
+     // Get a order by ID
+     getOrderById = async (req, res) => {
+        try {
+            const order = await orderService.getOrderById(req.params.orderId);
+            if (!order) {
+                return res.status(404).json({ message: 'Order not found' });
+            }
+            res.json(order);
+        } catch (err) {
+            res.status(500).json({ message: err.message });
+        }
+    };
 }
 
 module.exports = new OrderController();
