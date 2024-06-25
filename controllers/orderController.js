@@ -37,6 +37,19 @@ class OrderController {
             res.status(500).json({ message: err.message });
         }
     };
+
+    // Update a product by ID
+    updateOrderById = async (req, res) => {
+        try {
+            const updatedOrder = await orderService.updateOrderById(req.params.orderId, req.body);
+            if (!updatedOrder) {
+                return res.status(404).json({ message: 'Order not found' });
+            }
+            res.json(updatedOrder);
+        } catch (err) {
+            res.status(400).json({ message: err.message });
+        }
+    };
 }
 
 module.exports = new OrderController();

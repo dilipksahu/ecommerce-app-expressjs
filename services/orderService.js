@@ -43,7 +43,6 @@ class OrderService {
         }
     }
 
-    
     // Get order by ID
     async getOrderById(orderId) {
         try {
@@ -54,6 +53,42 @@ class OrderService {
             return order;
         } catch (error) {
             throw new Error(`Error fetching order: ${error.message}`);
+        }
+    }
+
+     // Update order by ID
+     async updateOrderById(orderId, updateData) {
+        try {
+            const order = await Order.findById(orderId);
+            if (!order) {
+                throw new Error('Order not found');
+            }
+
+            if (updateData.products) {
+                let totalAmount = 0;
+                for (let product of updateData.products) {
+                    const productDetails = await Product.findById(product.productId);
+                    if (!productDetails) {
+                        throw new Error(`Product with id ${product.productId} not found`);
+                    }
+                    totalAmount += productDetails.price * product.quantity;
+                }
+                order.products = updateData.products;
+                order.totalAmount = totalAmount;
+            }
+
+            if (updateData.userId) {
+                const user = await User.findById(updateData.userId);
+                if (!user) {
+                    throw new Error('User not found');
+                }
+                order.userId = updateData.userId;
+            }
+
+            await order.save();
+            return order;
+        } catch (error) {
+            throw new Error(`Error updating order: ${error.message}`);
         }
     }
 

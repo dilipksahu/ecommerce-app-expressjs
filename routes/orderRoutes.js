@@ -12,4 +12,7 @@ router.get('/', orderController.getAllOrders);
 // GET /api/orders/:orderId (Get a order by ID)
 router.get('/:orderId', orderController.getOrderById);
 
+// PUT /api/orders/:orderId (Update a order by ID)
+router.put('/:orderId', authMiddleware.authenticateToken, orderController.updateOrderById);
+
 module.exports = router;
