@@ -1,6 +1,7 @@
 const Order = require('../models/Order');
 const Product = require('../models/Product');
 const User = require('../models/User');
+const axios = require('axios');
 
 class OrderService {
 
@@ -106,6 +107,15 @@ class OrderService {
         }
     }
 
+    async processPayment(paymentDetails) {
+        const response = await axios.post('https://api.stripe.com/v1/charges', paymentDetails);
+        return response.data;
+    }
+      
+    async createShipment(shipmentDetails) {
+        const response = await axios.post('https://api.logistics.com/v1/shipments', shipmentDetails);
+        return response.data;
+    }
 }
 
 module.exports = new OrderService();

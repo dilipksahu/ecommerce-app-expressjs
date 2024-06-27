@@ -5,6 +5,6 @@ nock('https://api.stripe.com')
   .reply(200, {
     id: 'ch_1Iqgzk2eZvKYlo2C8bH7z8xF',
     amount: 2000,
-    currency: 'usd',
+    currency: 'rupees',
     status: 'succeeded'
   });
