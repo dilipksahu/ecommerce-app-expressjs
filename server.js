@@ -11,7 +11,7 @@ const app = express();
 
 app.use(bodyParser.json());
 
-// Load your SSL certificate and private key
+// Implement SSL/TLS for secure communication
 const privateKey = fs.readFileSync('./certificates/private.key', 'utf8');
 const certificate = fs.readFileSync('./certificates/certificate.crt', 'utf8');
 const ca = fs.readFileSync('./certificates/ca_bundle.crt', 'utf8');
@@ -27,9 +27,6 @@ app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 
-// Create HTTPS server
-const httpsServer = https.createServer(credentials, app);
-
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // limit each IP to 100 requests per windowMs
@@ -39,7 +36,16 @@ const limiter = rateLimit({
 // Apply to all requests
 app.use(limiter);
 
+
+
 const PORT = process.env.PORT || 3000;
-httpsServer.listen(PORT, () => {
+
+// Create HTTPS server
+const httpsServer = https.createServer(credentials, app);
+// httpsServer.listen(PORT, () => {
+//   console.log(`Server running on port ${PORT}`);
+// });
+
+app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
